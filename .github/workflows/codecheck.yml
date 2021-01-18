@@ -1,5 +1,7 @@
 name: codecheck
 
+on: push
+
 jobs:
   shellcheck:
     name: Shellcheck
