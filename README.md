@@ -2,7 +2,7 @@
 
 Script to check for any uncommitted/unpushed changes in repos before wiping system.
 
-[![codecheck](https://github.com/leonstafford/check-for-dirty-local-repos/workflows/codecheck/badge.svg)](/actions)
+[![codecheck](https://github.com/leonstafford/check-for-dirty-local-repos/workflows/codecheck/badge.svg)](https://github.com/leonstafford/check-for-dirty-local-repos/actions)
 
 ## Use case
 
