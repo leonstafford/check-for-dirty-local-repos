@@ -2,6 +2,8 @@
 
 Script to check for any uncommitted/unpushed changes in repos before wiping system.
 
+![codecheck](https://github.com/leonstafford/check-for-dirty-local-repos/workflows/codecheck/badge.svg)
+
 ## Use case
 
 I have a bunch of git repositories on my system. I run very light systems, whether on OpenBSD, macOS or Linux, so not really a worry for me to blow them away frequently. The most important thing that would suck to lose is any development work on my projects that I'm in the middle of and may not have pushed, which is where I'm at today.
