@@ -15,3 +15,16 @@ I have a bunch of git repositories on my system. I run very light systems, wheth
 
 Not adding a batch commit and push just yet, as opens up to accidentally pushing sensitive infos.
 
+## Usage 
+
+- `sh check.sh`
+
+Will output a list of the repos with uncommitted / unpushed changes.
+
+```
+$ sh check.sh ~
+check-for-dirty-local-repos: you have unstaged changes.
+ljsdotdev: you have unstaged changes.
+lokl-cli: you have unstaged changes.
+wp2static-addon-cloudflare-workers: you have unstaged changes.
+```

@@ -24,24 +24,26 @@ for dir in "$STARTING_DIR"/*/; do
 
     cd "$dir" || continue
 
-    #   check for uncomitted changes
-    # returns 0 if changes
-    # TODO: don't print initial git status to stdout
-    pwd
-    HAS_UNCOMMITTED="$(git diff-index --quiet HEAD --)"
+    REPO_NAME="$(basename "$dir")"
 
-    if [ "$HAS_UNCOMMITTED" ]; then
-      echo "dir has uncommitted changes:"
-      basename "$dir"
-      # git status
+    # Update the index
+    git update-index -q --ignore-submodules --refresh
+
+    # Disallow unstaged changes in the working tree
+    if ! git diff-files --quiet --ignore-submodules --
+    then
+        echo >&2 "$REPO_NAME: you have unstaged changes."
+        git diff-files --quiet --name-status -r --ignore-submodules --
     fi
 
-    # cd -
+    # Disallow uncommitted changes in the index
+    if ! git diff-index --cached --quiet HEAD --ignore-submodules --
+    then
+        echo >&2 "$REPO_NAME: your index contains uncommitted changes."
+        git diff-index --cached --quiet --name-status -r --ignore-submodules HEAD --
+    fi
 
-
-#   check for unpushed commits 
 done
 
 exit 0
-# for each dir
 
