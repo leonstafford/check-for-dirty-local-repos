@@ -43,6 +43,10 @@ for dir in "$STARTING_DIR"/*/; do
         git diff-index --cached --quiet --name-status -r --ignore-submodules HEAD --
     fi
 
+    if [ "$(git cherry -v)" ]
+    then
+      echo "$REPO_NAME has unpushed commits"
+    fi
 done
 
 exit 0

@@ -26,5 +26,11 @@ $ sh check.sh ~
 check-for-dirty-local-repos: you have unstaged changes.
 ljsdotdev: you have unstaged changes.
 lokl-cli: you have unstaged changes.
+lokl has unpushed commits
 wp2static-addon-cloudflare-workers: you have unstaged changes.
+wp2static-addon-gcs has unpushed commits
+wp2static-addon-netlify has unpushed commits
+wp2static-addon-s3 has unpushed commits
+wp2static-addon-zip has unpushed commits
+wp2static has unpushed commits
 ```
