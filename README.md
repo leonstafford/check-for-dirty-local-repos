@@ -10,7 +10,7 @@ I have a bunch of git repositories on my system. I run very light systems, wheth
 
 ## Acceptance criteria
 
- - [ ] prints list of each repo directory, listing whether it has uncommitted or unpushed changes (checkout out branch only sufficient)
+ - [x] prints list of each repo directory, listing whether it has uncommitted or unpushed changes (checkout out branch only sufficient)
  - [ ] prints the dirty files from applicable repos
 
 Not adding a batch commit and push just yet, as opens up to accidentally pushing sensitive infos.
