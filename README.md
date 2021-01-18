@@ -12,13 +12,15 @@ I have a bunch of git repositories on my system. I run very light systems, wheth
 
  - [x] prints list of each repo directory, listing whether it has uncommitted or unpushed changes (checkout out branch only sufficient)
  - [ ] prints the dirty files from applicable repos
- - [ ] optionally open repos needing attention in new named tmux windows
+ - [x] optionally open repos needing attention in new named tmux windows
 
 Not adding a batch commit and push just yet, as opens up to accidentally pushing sensitive infos.
 
 ## Usage 
 
-- `sh check.sh`
+### Lising affected repos
+
+- `sh check.sh DIR` where `DIR` is the top-level directory you want to start searching for git repos in
 
 Will output a list of the repos with uncommitted / unpushed changes.
 
@@ -35,3 +37,7 @@ wp2static-addon-s3 has unpushed commits
 wp2static-addon-zip has unpushed commits
 wp2static has unpushed commits
 ```
+
+### Opening each affected repo in new tmux window
+
+- `sh check.sh DIR tmux` adding `tmux` as 2nd argument will create a new tmux session, with a window `cd`'d into each repo directory needing attention. Can be run from within an existing tmux session or directly from shell.

@@ -55,49 +55,49 @@ for dir in "$STARTING_DIR"/*/; do
     fi
 done
 
+# remove duplicate entries (repos with changes and unpushed commits)
+uniq < /tmp/dirtydirs > /tmp/dirtydirsuniq
+
 # optionally open each dir in new named tmux window
+# works both from within tmux and via shell directly
+if [ "$2" ]; then
+  if [ "$2" = "tmux" ]; then
 
-cat /tmp/dirtydirs
+    # TODO: doesn't handle when existing session with same name exists
+    # cheap hack: append timestamp to session name
+    # delete existing cleanup session
+    # tmux kill-session -t DirtyRepoCleanup
 
-if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-  echo "Already within tmux, please run from outside tmux"
-  exit 1
+    # create new session to hold a window for each dir
+    tmux new-session -d -s DirtyRepoCleanup -n basewindow
+    # tmux new-session -s DirtyRepoCleanup -d -n basewindow 'echo new win'
+
+
+    # NOTE: we're still cd'd into last dir we inspected
+
+    while IFS="" read -r DIRTY_DIR || [ -n "$DIRTY_DIR" ]
+    do
+      if [ ! "$DIRTY_DIR" ]; then
+        continue
+      fi
+
+      # printf '%s allo \n' "$DIRTY_DIR"
+      DIRTY_BASENAME="$(basename "$DIRTY_DIR")"
+      echo " my $DIRTY_DIR ($DIRTY_BASENAME)"
+
+      tmux new-window -d -n "$DIRTY_BASENAME" -t DirtyRepoCleanup: 
+
+      tmux send-keys -t "DirtyRepoCleanup:$DIRTY_BASENAME" "cd $DIRTY_DIR" ENTER
+
+    done < /tmp/dirtydirsuniq
+
+    # remove first window in DirtyRepoCleanup which is empty
+    tmux send-keys -t DirtyRepoCleanup:basewindow "exit" ENTER
+
+    tmux attach-session -t DirtyRepoCleanup
+  fi
 fi
 
-# delete existing cleanup session
-# tmux kill-session -t DirtyRepoCleanup
-
-# create new session to hold a window for each dir
-tmux new-session -d -s DirtyRepoCleanup
-# tmux new-session -s DirtyRepoCleanup -d -n basewindow 'echo new win'
-
-# NOTE: we're still cd'd into last dir we inspected
-
-while IFS="" read -r DIRTY_DIR || [ -n "$DIRTY_DIR" ]
-do
-  if [ ! "$DIRTY_DIR" ]; then
-    continue
-  fi
-
-  # printf '%s allo \n' "$DIRTY_DIR"
-  DIRTY_BASENAME="$(basename "$DIRTY_DIR")"
-  echo " my $DIRTY_DIR ($DIRTY_BASENAME)"
-  # tmux new-window -n:"$DIRTY_BASENAME" "cd "$DIRTY_DIR""
-  # tmux new-window -n:anewone 'ls'
-
-
-  # tmux new-window -n "$DIRTY_BASENAME" -t DirtyRepoCleanup: "echo $DIRTY_BASENAME" &
-  tmux new-window -n "$DIRTY_BASENAME" -t DirtyRepoCleanup: 
-
-  # -d to prevent current window from changing
-  # tmux new-window -d -n Win2
-  # tmux new-window -d -n Win3
-  # tmux new-window -d -n Win4
-  # -d to detach any other client (which there shouldn't be,
-  # since you just created the session).
-done < /tmp/dirtydirs
-
-tmux attach-session -t DirtyRepoCleanup
 
 exit 0
 
